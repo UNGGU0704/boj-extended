@@ -7,16 +7,19 @@ function extendProblemPage() {
   // Constants
   const STORAGE_TIMER = 'problem-timers';
   const STORAGE_PROBLEM_BOARD = 'problem-boards';
-
+    
   const container = document
     .getElementsByClassName('content')[0]
     .getElementsByClassName('row')[0];
   const progress = progressTimer(); // eslint-disable-line no-undef
   container.insertBefore(progress.element(), container.firstChild);
 
+
   const dropdown = createTimerDropdown();
   menu.appendChild(dropdown);
-
+  const stopwatch = createStopwatchInDropdown();
+  menu.appendChild(stopwatch);
+    
   showQuestionsCount();
 
   /** ******* end of main code in this function ******* **/
@@ -258,4 +261,160 @@ function extendProblemPage() {
 
     return li;
   }
+
+    function createStopwatch() {
+        
+        const stopwatchWrapper = document.createElement("div");
+        stopwatchWrapper.classList.add("stopwatch-wrapper");
+        stopwatchWrapper.style.cssText = `display: inline-block; text-align: center; margin-top: 20px;`;
+
+        const timeDisplay = document.createElement("span");
+        timeDisplay.classList.add("time-display");
+        timeDisplay.textContent = "00:00:00";
+        timeDisplay.style.cssText = `display: inline-block; margin-bottom: 10px; font-size: 24px; font-weight: bold; color: #ffffff; background-color: #3d3d3d; padding: 5px 10px; border-radius: 5px;`;
+
+        const buttonWrapper = document.createElement("div");
+        buttonWrapper.classList.add("button-wrapper");
+        buttonWrapper.style.cssText = `display: flex; align-items: center; justify-content: center; background-color: #4e4e4e; padding: 10px; border-radius: 5px;`;
+
+/*
+      const startButton = Utils.createElement("button", {
+        class: "start-button",
+        textContent: "시작",
+        style: "cursor: pointer; font-size: 16px; width: 100px; height: 40px; margin-right: 5px; color: #000; background-color: #ddd; border: 1px solid #ccc;",
+      });
+    
+      const pauseButton = Utils.createElement("button", {
+        class: "pause-button",
+        textContent: "일시 정지",
+      style: "cursor: pointer; font-size: 16px; width: 100px; height: 40px; margin-right: 5px; color: #000; background-color: #ddd; border: 1px solid #ccc;",
+      });
+      const resetButton = Utils.createElement("button", {
+        class: "reset-button",
+        textContent: "리셋",
+      style: "cursor: pointer; font-size: 16px; width: 100px; height: 40px; color: #000; background-color: #ddd; border: 1px solid #ccc;",
+      });
+     */
+        const handleButtonClick = (event) => {
+          event.stopPropagation();
+        };
+
+        const createButton = (text, marginRight = "5px") => {
+          const button = document.createElement("button");
+          button.textContent = text;
+          button.style.cssText = `cursor: pointer; font-size: 16px; width: 100px;height: 40px; margin-right: ${marginRight}; color: #ffffff; background-color: #3d3d3d; border: 1px solid #999; border-radius: 5px;`;
+          button.addEventListener("click", handleButtonClick);
+          return button;
+        };
+        
+        const startButton = createButton("시작");
+        const pauseButton = createButton("일시 정지");
+        const resetButton = createButton("리셋", "0px");
+
+      stopwatchWrapper.appendChild(startButton);
+      stopwatchWrapper.appendChild(pauseButton);
+      stopwatchWrapper.appendChild(resetButton);
+      stopwatchWrapper.appendChild(timeDisplay);
+      stopwatchWrapper.appendChild(buttonWrapper);
+      let startTimestamp;
+      let elapsedTime = 0;
+      let timerInterval;
+
+      const updateTimeDisplay = () => {
+        const time = new Date(elapsedTime);
+        const hours = time.getUTCHours();
+        const minutes = time.getUTCMinutes();
+        const seconds = time.getUTCSeconds();
+
+        timeDisplay.textContent = `${hours
+          .toString()
+          .padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds
+          .toString()
+          .padStart(2, "0")}`;
+      };
+
+      startButton.onclick = () => {
+        startButton.disabled = true;
+        pauseButton.disabled = false;
+        startTimestamp = Date.now() - elapsedTime;
+        timerInterval = setInterval(() => {
+          elapsedTime = Date.now() - startTimestamp;
+          updateTimeDisplay();
+        }, 1000);
+      };
+
+      pauseButton.onclick = () => {
+        startButton.disabled = false;
+        pauseButton.disabled = true;
+        clearInterval(timerInterval);
+      };
+
+      resetButton.onclick = () => {
+        startButton.disabled = false;
+        pauseButton.disabled = false;
+        clearInterval(timerInterval);
+        elapsedTime = 0;
+        updateTimeDisplay();
+      };
+
+      return stopwatchWrapper;
+    }
+    
+    function createStopwatchInDropdown() {
+        const li = Utils.createElement('li', {
+          id: 'problem-stopwatch',
+          class: 'dropdown',
+        });
+
+        const a = Utils.createElement('a', {
+          class: 'dropdown-toggle',
+          style: 'cursor: pointer',
+        });
+        a.innerHTML = '스톱워치<b class="caret"></b>';
+        /* a.addEventListener('click', (evt) => {
+          li.classList.toggle('open');
+        }); */
+        li.appendChild(a);
+        
+        // 추가
+        const form = Utils.createElement("form", { class: "dropdown-menu" });
+        form.addEventListener("click", (evt) => {
+          evt.preventDefault();
+          evt.stopPropagation();
+          li.classList.toggle("open");
+        });
+        li.appendChild(form);
+        // 추가
+        
+        const stopwatchContent = Utils.createElement('div', {
+          class: 'stopwatch',
+        style: "padding: 10px;",
+        });
+        // 추가
+        form.appendChild(stopwatchContent);
+        
+        // 바인딩: createStopwatch()의 반환 값을 stopwatchContent에 삽입합니다.
+        const stopwatchWrapper = createStopwatch();
+        stopwatchContent.appendChild(stopwatchWrapper);
+        
+        /*
+        li.appendChild(stopwatchContent);
+        
+        a.addEventListener("click", (evt) => {
+          // 숨김/표시 상태를 토글합니다.
+          if (stopwatchContent.style.display === "none") {
+            stopwatchContent.style.display = "block";
+          } else {
+            stopwatchContent.style.display = "none";
+          }
+        });
+         */
+        a.addEventListener("click", (evt) => {
+           li.classList.toggle("open");
+         });
+
+        
+        return li;
+    }
 }
+
