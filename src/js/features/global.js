@@ -4,7 +4,6 @@ function extendGlobal() {
   extendFontStyle();
   extendReformatMessage();
   extendProblemPage();
-  extendRandomDefence();
   extendQuickSearch();
   extendProblemColor();
   extendLastViewPopup();
