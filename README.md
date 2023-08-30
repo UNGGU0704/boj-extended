@@ -14,19 +14,40 @@
 ## 기술 스택
 |분야|사용 기술|
 |---|---|
-|FrontEnd|  |
-|BackEnd|  |
-|Design|  |
+|FrontEnd| javascript |
+|BackEnd| Node.js |
+|Design| CSS, ESLint |
 
 ## Team
 |성명|역할|
 |---|---|
-|[김규형](https://github.com/UNGGU0704)||
-|[소부승](https://github.com/bootkorea)||
-|[정예성](https://github.com/jys-jeong)||
-|[황예찬](https://github.com/yechaaae)||
+|[김규형](https://github.com/UNGGU0704)| features/problem.js 수정 |
+|[소부승](https://github.com/bootkorea)| features/defence.js 추가 |
+|[정예성](https://github.com/jys-jeong)| features/defence.js 추가 |
+|[황예찬](https://github.com/yechaaae)| css/theme.css 수정_추가 |
 
-###  김규형 추가기능
-|기능|사용 기술|
+##  수정 내용
+
+###  Problem.js ([김규형](https://github.com/UNGGU0704))
+* 개발 언어 - Javascript (VSCode 환경 이용)
+* 수정 코드 - 123 Lines
+
+|기능|설명|
 |----|----|
-|타이머 기능|JavaScript, CSS,|
+|타이머| 문제 풀이 중 사용 가능한 Timer 기능 추가 |
+
+###  defence.js ([정예성](https://github.com/jys-jeong) [소부승](https://github.com/bootkorea) )
+* 개발 언어 - HTML / CSS / Javascript (VSCode 환경 이용)
+* 수정 코드 - 281 Lines
+
+|기능|설명|
+|----|----|
+|랜덤 디펜스| 난이도에 맞는 문제 랜덤으로 제공 |
+
+###  theme.css ([황예찬](https://github.com/yechaaae))
+* 개발 언어 - CSS / Javascript (VSCode 환경 이용)
+* 수정 코드 - 120 Lines
+
+|기능|설명|
+|----|----|
+|대회 UI| CP 환경과 유사한 UI 제공 |
